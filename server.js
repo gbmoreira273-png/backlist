@@ -375,19 +375,11 @@ app.use((error, req, res, next) => {
 
 export default app;
 
-// ==========================================
-// INICIALIZAÇÃO LOCAL
-// ==========================================
-
+// Inicialização local
 if (!process.env.VERCEL) {
     const PORT = process.env.PORT || 3000;
 
     app.listen(PORT, () => {
-        console.log("==================================");
-        console.log(" API DE LISTA DE TAREFAS");
-        console.log("==================================");
-        console.log(` Servidor: http://localhost:${PORT}`);
-        console.log(` API: http://localhost:${PORT}/api/tarefas`);
-        console.log("==================================");
+        console.log(`Servidor rodando na porta ${PORT}`);
     });
 }
