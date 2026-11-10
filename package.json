@@ -1,14 +1,21 @@
+
 {
-  "name": "sistema-financeiro",
+  "name": "backend-lista-tarefas",
   "version": "1.0.0",
-  "description": "API de organização financeira com Express",
+  "description": "API CRUD de lista de tarefas com Express e Supabase",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
     "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0"
   }
 }
