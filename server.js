@@ -7,16 +7,12 @@ import { createClient } from "@supabase/supabase-js";
 dotenv.config();
 
 // ==========================================
-// CONFIGURAÇÕES DO EXPRESS
+// CONFIGURAÇÕES
 // ==========================================
 
 const app = express();
 
 app.use(express.json());
-
-// ==========================================
-// CONFIGURAÇÃO DO CORS
-// ==========================================
 
 const allowedOrigins = process.env.FRONTEND_URL
     ? process.env.FRONTEND_URL.split(",").map(origin => origin.trim())
@@ -43,9 +39,7 @@ app.use(cors({
 // ==========================================
 
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
-    throw new Error(
-        "Configure SUPABASE_URL e SUPABASE_KEY nas variáveis de ambiente."
-    );
+    throw new Error("Configure SUPABASE_URL e SUPABASE_KEY.");
 }
 
 const supabase = createClient(
@@ -55,7 +49,6 @@ const supabase = createClient(
 
 // ==========================================
 // ROTA PRINCIPAL
-// GET /
 // ==========================================
 
 app.get("/", (req, res) => {
@@ -83,7 +76,7 @@ app.get("/api/tarefas", async (req, res) => {
         return res.status(200).json(data);
 
     } catch (error) {
-        console.error("Erro ao listar tarefas:", error.message);
+        console.error("Erro ao listar:", error.message);
 
         return res.status(500).json({
             erro: "Não foi possível listar as tarefas."
@@ -117,7 +110,7 @@ app.get("/api/tarefas/:id", async (req, res) => {
         return res.status(200).json(data);
 
     } catch (error) {
-        console.error("Erro ao buscar tarefa:", error.message);
+        console.error("Erro ao buscar:", error.message);
 
         return res.status(500).json({
             erro: "Não foi possível buscar a tarefa."
@@ -171,7 +164,7 @@ app.post("/api/tarefas", async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Erro ao cadastrar tarefa:", error.message);
+        console.error("Erro ao cadastrar:", error.message);
 
         return res.status(500).json({
             erro: "Não foi possível cadastrar a tarefa."
@@ -254,7 +247,7 @@ app.put("/api/tarefas/:id", async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Erro ao atualizar tarefa:", error.message);
+        console.error("Erro ao atualizar:", error.message);
 
         return res.status(500).json({
             erro: "Não foi possível atualizar a tarefa."
@@ -263,7 +256,7 @@ app.put("/api/tarefas/:id", async (req, res) => {
 });
 
 // ==========================================
-// PATCH - ALTERNAR CONCLUSÃO DA TAREFA
+// PATCH - ALTERNAR CONCLUSÃO
 // PATCH /api/tarefas/:id/concluir
 // ==========================================
 
@@ -302,7 +295,7 @@ app.patch("/api/tarefas/:id/concluir", async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Erro ao concluir tarefa:", error.message);
+        console.error("Erro ao concluir:", error.message);
 
         return res.status(500).json({
             erro: "Não foi possível alterar o status."
@@ -339,7 +332,7 @@ app.delete("/api/tarefas/:id", async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Erro ao excluir tarefa:", error.message);
+        console.error("Erro ao excluir:", error.message);
 
         return res.status(500).json({
             erro: "Não foi possível excluir a tarefa."
@@ -348,7 +341,7 @@ app.delete("/api/tarefas/:id", async (req, res) => {
 });
 
 // ==========================================
-// ROTA NÃO ENCONTRADA
+// TRATAMENTO DE ROTAS INEXISTENTES
 // ==========================================
 
 app.use((req, res) => {
@@ -364,7 +357,7 @@ app.use((req, res) => {
 app.use((error, req, res, next) => {
     console.error("Erro interno:", error.message);
 
-    return res.status(500).json({
+    res.status(500).json({
         erro: "Erro interno no servidor."
     });
 });
@@ -375,11 +368,19 @@ app.use((error, req, res, next) => {
 
 export default app;
 
-// Inicialização local
+// ==========================================
+// EXECUÇÃO LOCAL
+// ==========================================
+
 if (!process.env.VERCEL) {
     const PORT = process.env.PORT || 3000;
 
     app.listen(PORT, () => {
-        console.log(`Servidor rodando na porta ${PORT}`);
+        console.log("----------------------------------");
+        console.log(" API DE LISTA DE TAREFAS");
+        console.log("----------------------------------");
+        console.log(` Servidor: http://localhost:${PORT}`);
+        console.log(` Tarefas: http://localhost:${PORT}/api/tarefas`);
+        console.log("----------------------------------");
     });
 }
