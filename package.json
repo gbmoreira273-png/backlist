@@ -1,10 +1,13 @@
+
 {
   "name": "backend-lista-tarefas",
   "version": "1.0.0",
+  "description": "API CRUD de lista de tarefas com Express e Supabase",
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "engines": {
     "node": ">=20"
